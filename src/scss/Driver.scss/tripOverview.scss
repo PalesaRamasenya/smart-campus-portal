@@ -1,0 +1,116 @@
+/* Background and overall container */
+.trip-overview-container {
+    background-color: #f3f4f6;
+    min-height: 100vh;
+    padding-top: 0px;
+    width: 100%;
+    height: 100%;
+  }
+  
+  /* Header bar */
+  .header-bar {
+    margin-top: -50px;
+    font-size: 20px;
+    width: 100%;
+    color: #ffffff;
+    font-weight: bold;
+    text-align: center;
+    border-radius: 0;
+    padding: 18px;
+    background-color: #003366;
+  }
+  
+  /* Main card (departures + destinations + button) */
+  .main-card {
+    background-color: #ffffff;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    padding: 30px;
+    height: 100%;
+    margin-top: 25px;
+  }
+  
+  /* Titles: DEPARTURES and DESTINATIONS */
+  .section-title {
+    font-weight: bold;
+    text-align: center;
+    font-size: 14px;
+    text-decoration: underline;
+  }
+  
+  /* Departure & Destination boxes */
+  .trip-box {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px 15px;
+    border-radius: 6px;
+    font-size: 14px;
+    width: 100%;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+  }
+  
+  .departure-box {
+    background-color: #facc15; /* yellow */
+    color: #000;
+  }
+  
+  .destination-box {
+    background-color: #003366; /* navy */
+    color: #fff;
+  }
+  
+  /* Start Trip button */
+  .start-trip-btn {
+    background-color: #003366;
+    color: #fff;
+    border: none;
+    padding: 10px 30px;
+    font-size: 16px;
+    font-weight: bold;
+    border-radius: 6px;
+    margin-top: 30px;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+  }
+  
+  .start-trip-btn:hover {
+    background-color: #2541a1;
+  }
+  
+  /* Check-In status card */
+  .checkin-card {
+    background-color: #ffffff;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    padding: 30px;
+    height: 100%;
+    margin-top: 25px;
+  }
+  
+  .checkin-title {
+    font-weight: bold;
+    text-align: center;
+    font-size: 16px;
+    margin-bottom: 20px;
+  }
+  
+  /* Check-In status boxes */
+  .status-box {
+    text-align: center;
+    border-radius: 6px;
+    padding: 15px 0;
+    margin-bottom: 15px;
+  }
+  
+  .total-passengers {
+    background-color: #003366; /* navy */
+    color: #fff;
+    font-size: 16px;
+  }
+  
+  .to-check-in {
+    background-color: #dc2626; /* red */
+    color: #fff;
+    font-size: 16px;
+  }
+  

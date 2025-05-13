@@ -1,0 +1,35 @@
+.passenger-manifest-container {
+    max-width: 1000px;
+    margin: 0 auto;
+    width: 100%;
+    height: 100%;
+  }
+  
+  .header-bar {
+    background-color: #003366; /* Dark blue */
+    border-radius: 5px;
+  }
+  
+  .passenger-card {
+    width: 100%;
+    min-height: 200px;
+    border: 1px solid #ddd;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+  }
+  
+  .passenger-name {
+    font-weight: bold;
+    font-size: 1.2rem;
+  }
+  
+  .avatar-placeholder {
+    color: #ccc;
+  }
+  
+  .student-number {
+    font-size: 0.9rem;
+    color: #666;
+  }
+  
