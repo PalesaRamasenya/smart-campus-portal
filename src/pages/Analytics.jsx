@@ -1,169 +1,164 @@
 
-import React from 'react';
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
+import React, { useState } from 'react';
+import { 
+  Card, 
+  CardContent, 
+  CardHeader, 
+  CardTitle, 
+  CardDescription 
+} from '@/components/ui/card';
+import { 
+  Select, 
+  SelectContent, 
+  SelectItem, 
+  SelectTrigger, 
+  SelectValue 
+} from "@/components/ui/select";
 import { 
   AreaChart, 
   Area, 
+  BarChart,
+  Bar,
   XAxis, 
   YAxis, 
   CartesianGrid, 
   Tooltip, 
+  Legend, 
   ResponsiveContainer,
-  BarChart,
-  Bar,
-  Legend,
   PieChart,
   Pie,
-  Cell
+  Cell,
+  Line,
+  LineChart
 } from 'recharts';
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 
-const monthlyData = [
-  { name: 'Jan', value: 1423 },
-  { name: 'Feb', value: 1521 },
-  { name: 'Mar', value: 1736 },
-  { name: 'Apr', value: 1890 },
-  { name: 'May', value: 1854 },
-  { name: 'Jun', value: 1420 },
-  { name: 'Jul', value: 1679 },
-  { name: 'Aug', value: 1502 },
-  { name: 'Sep', value: 1622 },
-  { name: 'Oct', value: 1750 },
-  { name: 'Nov', value: 1925 },
-  { name: 'Dec', value: 1200 },
+// Mock data for charts
+const weekdayData = [
+  { time: '07:15', bookings: 45, checkins: 42, route: 'Res to Campus' },
+  { time: '07:45', bookings: 48, checkins: 46, route: 'Res to Campus' },
+  { time: '08:10', bookings: 32, checkins: 30, route: 'Campus to Res' },
+  { time: '08:45', bookings: 38, checkins: 35, route: 'Res to Campus' },
+  { time: '09:10', bookings: 44, checkins: 41, route: 'Campus to Res' },
+  { time: '09:45', bookings: 30, checkins: 27, route: 'Res to Campus' },
+  { time: '10:10', bookings: 25, checkins: 22, route: 'Campus to Res' },
+  { time: '10:45', bookings: 29, checkins: 27, route: 'Res to Campus' },
+  { time: '11:10', bookings: 35, checkins: 32, route: 'Campus to Res' },
+  { time: '11:45', bookings: 28, checkins: 25, route: 'Res to Campus' },
 ];
 
-const busRouteData = [
-  { name: 'Res to Campus', students: 3650, fill: '#8884d8' },
-  { name: 'Campus to Res', students: 2790, fill: '#83a6ed' },
-  { name: 'Campus to Mall', students: 1890, fill: '#8dd1e1' },
-  { name: 'Mall to Campus', students: 1550, fill: '#82ca9d' },
+const weekData = [
+  { day: 'Monday', bookings: 320, checkins: 290 },
+  { day: 'Tuesday', bookings: 302, checkins: 278 },
+  { day: 'Wednesday', bookings: 334, checkins: 310 },
+  { day: 'Thursday', bookings: 350, checkins: 330 },
+  { day: 'Friday', bookings: 410, checkins: 385 },
+  { day: 'Saturday', bookings: 175, checkins: 162 },
 ];
 
-const peakHoursData = [
-  { hour: '6-8 AM', students: 450 },
-  { hour: '8-10 AM', students: 780 },
-  { hour: '10-12 PM', students: 350 },
-  { hour: '12-2 PM', students: 890 },
-  { hour: '2-4 PM', students: 670 },
-  { hour: '4-6 PM', students: 920 },
-  { hour: '6-8 PM', students: 580 },
-  { hour: '8-10 PM', students: 320 },
+const routeDistribution = [
+  { name: 'Res to Campus', value: 65 },
+  { name: 'Campus to Res', value: 35 },
 ];
 
-const COLORS = ['#0088FE', '#00C49F', '#FFBB28', '#FF8042', '#8884D8'];
-
-const pieData = [
-  { name: 'Regular Passengers', value: 65 },
-  { name: 'Occasional', value: 20 },
-  { name: 'First-Time', value: 15 },
-];
+const ROUTE_COLORS = ['#005DA5', '#E4002B'];
+const CHART_COLORS = {
+  bookings: '#005DA5',  // TUT blue
+  checkins: '#FDB913',  // TUT yellow
+  missed: '#E4002B'     // TUT red
+};
 
 const Analytics = () => {
+  const [timeRange, setTimeRange] = useState('week');
+  
   return (
     <div className="space-y-6">
-      <div>
-        <h1 className="text-3xl font-bold tracking-tight">Analytics Dashboard</h1>
-        <p className="text-muted-foreground">View system usage statistics and trends.</p>
+      <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
+        <div>
+          <h1 className="text-3xl font-bold tracking-tight">Analytics</h1>
+          <p className="text-muted-foreground">Bus usage statistics and booking analytics.</p>
+        </div>
+        <Select
+          value={timeRange}
+          onValueChange={setTimeRange}
+        >
+          <SelectTrigger className="w-[180px]">
+            <SelectValue placeholder="Select time range" />
+          </SelectTrigger>
+          <SelectContent>
+            <SelectItem value="today">Today</SelectItem>
+            <SelectItem value="week">This Week</SelectItem>
+            <SelectItem value="month">This Month</SelectItem>
+          </SelectContent>
+        </Select>
       </div>
       
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
         <Card>
           <CardHeader>
-            <CardTitle>Monthly Ridership</CardTitle>
+            <CardTitle className="text-lg">Total Bookings</CardTitle>
           </CardHeader>
-          <CardContent className="h-80">
-            <ResponsiveContainer width="100%" height="100%">
-              <AreaChart
-                data={monthlyData}
-                margin={{
-                  top: 10,
-                  right: 30,
-                  left: 0,
-                  bottom: 0,
-                }}
-              >
+          <CardContent className="pt-2">
+            <div className="text-3xl font-bold mb-4">1,891</div>
+            <ResponsiveContainer width="100%" height={150}>
+              <LineChart data={weekData}>
                 <CartesianGrid strokeDasharray="3 3" />
-                <XAxis dataKey="name" />
-                <YAxis />
+                <XAxis dataKey="day" tick={{ fontSize: 10 }} />
+                <YAxis tick={{ fontSize: 10 }} />
                 <Tooltip />
-                <Area type="monotone" dataKey="value" stroke="#8884d8" fill="#8884d8" />
-              </AreaChart>
+                <Line 
+                  type="monotone" 
+                  dataKey="bookings" 
+                  stroke={CHART_COLORS.bookings} 
+                  strokeWidth={2}
+                  dot={false}
+                />
+              </LineChart>
             </ResponsiveContainer>
+            <p className="text-xs text-muted-foreground mt-2">+8.2% from last week</p>
           </CardContent>
         </Card>
         
         <Card>
           <CardHeader>
-            <CardTitle>Peak Hours</CardTitle>
+            <CardTitle className="text-lg">Check-in Rate</CardTitle>
           </CardHeader>
-          <CardContent className="h-80">
-            <ResponsiveContainer width="100%" height="100%">
-              <BarChart
-                data={peakHoursData}
-                margin={{
-                  top: 5,
-                  right: 30,
-                  left: 20,
-                  bottom: 5,
-                }}
-              >
+          <CardContent className="pt-2">
+            <div className="text-3xl font-bold mb-4">93.2%</div>
+            <ResponsiveContainer width="100%" height={150}>
+              <BarChart data={weekData}>
                 <CartesianGrid strokeDasharray="3 3" />
-                <XAxis dataKey="hour" />
-                <YAxis />
+                <XAxis dataKey="day" tick={{ fontSize: 10 }} />
+                <YAxis tick={{ fontSize: 10 }} />
                 <Tooltip />
-                <Legend />
-                <Bar dataKey="students" fill="#82ca9d" />
+                <Bar dataKey="checkins" fill={CHART_COLORS.checkins} />
               </BarChart>
             </ResponsiveContainer>
+            <p className="text-xs text-muted-foreground mt-2">+1.5% from last week</p>
           </CardContent>
         </Card>
         
         <Card>
           <CardHeader>
-            <CardTitle>Popular Bus Routes</CardTitle>
+            <CardTitle className="text-lg">Route Distribution</CardTitle>
           </CardHeader>
-          <CardContent className="h-80">
-            <ResponsiveContainer width="100%" height="100%">
-              <BarChart
-                layout="vertical"
-                data={busRouteData}
-                margin={{
-                  top: 5,
-                  right: 30,
-                  left: 20,
-                  bottom: 5,
-                }}
-              >
-                <CartesianGrid strokeDasharray="3 3" />
-                <XAxis type="number" />
-                <YAxis type="category" dataKey="name" />
-                <Tooltip />
-                <Legend />
-                <Bar dataKey="students" fill="#8884d8" />
-              </BarChart>
-            </ResponsiveContainer>
-          </CardContent>
-        </Card>
-        
-        <Card>
-          <CardHeader>
-            <CardTitle>Passenger Types</CardTitle>
-          </CardHeader>
-          <CardContent className="h-80">
-            <ResponsiveContainer width="100%" height="100%">
+          <CardContent className="flex justify-center pt-2">
+            <ResponsiveContainer width="100%" height={200}>
               <PieChart>
                 <Pie
-                  data={pieData}
+                  data={routeDistribution}
                   cx="50%"
                   cy="50%"
-                  labelLine={false}
+                  innerRadius={60}
                   outerRadius={80}
                   fill="#8884d8"
+                  paddingAngle={5}
                   dataKey="value"
-                  label={({ name, percent }) => `${name} ${(percent * 100).toFixed(0)}%`}
+                  label={({name, percent}) => `${name}: ${(percent * 100).toFixed(0)}%`}
+                  labelLine={false}
                 >
-                  {pieData.map((entry, index) => (
-                    <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
+                  {routeDistribution.map((entry, index) => (
+                    <Cell key={`cell-${index}`} fill={ROUTE_COLORS[index % ROUTE_COLORS.length]} />
                   ))}
                 </Pie>
                 <Tooltip />
@@ -172,6 +167,91 @@ const Analytics = () => {
           </CardContent>
         </Card>
       </div>
+      
+      <Tabs defaultValue="usage" className="space-y-4">
+        <TabsList>
+          <TabsTrigger value="usage">Bus Usage</TabsTrigger>
+          <TabsTrigger value="bookings">Booking Patterns</TabsTrigger>
+        </TabsList>
+        
+        <TabsContent value="usage">
+          <Card>
+            <CardHeader>
+              <CardTitle>Bus Usage Analytics</CardTitle>
+              <CardDescription>
+                Detailed breakdown of bookings and check-ins by time slot
+              </CardDescription>
+            </CardHeader>
+            <CardContent>
+              <ResponsiveContainer width="100%" height={400}>
+                <BarChart
+                  data={weekdayData}
+                  margin={{
+                    top: 20,
+                    right: 30,
+                    left: 20,
+                    bottom: 5,
+                  }}
+                >
+                  <CartesianGrid strokeDasharray="3 3" />
+                  <XAxis dataKey="time" />
+                  <YAxis />
+                  <Tooltip />
+                  <Legend />
+                  <Bar dataKey="bookings" name="Bookings" fill={CHART_COLORS.bookings} />
+                  <Bar dataKey="checkins" name="Check-ins" fill={CHART_COLORS.checkins} />
+                </BarChart>
+              </ResponsiveContainer>
+            </CardContent>
+          </Card>
+        </TabsContent>
+        
+        <TabsContent value="bookings">
+          <Card>
+            <CardHeader>
+              <CardTitle>Weekly Booking Trends</CardTitle>
+              <CardDescription>
+                Comparison of bookings and check-ins throughout the week
+              </CardDescription>
+            </CardHeader>
+            <CardContent>
+              <ResponsiveContainer width="100%" height={400}>
+                <AreaChart
+                  data={weekData}
+                  margin={{
+                    top: 10,
+                    right: 30,
+                    left: 0,
+                    bottom: 0,
+                  }}
+                >
+                  <CartesianGrid strokeDasharray="3 3" />
+                  <XAxis dataKey="day" />
+                  <YAxis />
+                  <Tooltip />
+                  <Legend />
+                  <Area 
+                    type="monotone" 
+                    dataKey="bookings" 
+                    name="Total Bookings" 
+                    stackId="1" 
+                    stroke={CHART_COLORS.bookings} 
+                    fill={`${CHART_COLORS.bookings}40`} 
+                  />
+                  <Area 
+                    type="monotone" 
+                    dataKey="checkins" 
+                    name="Actual Check-ins" 
+                    stackId="2" 
+                    stroke={CHART_COLORS.checkins} 
+                    fill={`${CHART_COLORS.checkins}40`} 
+                  />
+                </AreaChart>
+              </ResponsiveContainer>
+            </CardContent>
+          </Card>
+        </TabsContent>
+      </Tabs>
     </div>
   );
 };
