@@ -6,6 +6,7 @@ import TripStage from './pages/DriverPages/tripStage';
 import TripOverview from './pages/DriverPages/tripOverview';
 import EmergencyReporting from './pages/DriverPages/emergencyReporting';
 import ScanQRCodePage from './pages/DriverPages/ScanQRCodePage';
+import Alerts from './pages/DriverPages/Alerts';
 
 
 function App() {
@@ -18,6 +19,7 @@ function App() {
       <Route path="/emergency-reporting" element={<EmergencyReporting />} />
       <Route path="/trip-stage" element={<TripStage />} />
       <Route path="/passenger-manifest" element={<PassengerManifest />} />
+      <Route path="/alerts" element={<Alerts />} />
       {/* Add other routes here */}
     </Routes>
   </Router>

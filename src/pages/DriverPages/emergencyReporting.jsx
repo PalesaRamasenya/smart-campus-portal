@@ -4,12 +4,13 @@ import '../../scss/Driver.scss/emergencyReporting.scss'; // Import your CSS file
 import 'bootstrap/dist/css/bootstrap.min.css'; // Import Bootstrap CSS
 
 const EmergencyReporting = () => {
-  const issues = [
-    'Issue #1',
-    'Issue #2',
-    'Issue #3',
-    'Issue #4',
-  ];
+const issues = [
+  { message: 'Engine overheating near campus exit', date: '2025-05-10 08:15 AM' },
+  { message: 'Flat tire reported on corridor hill route', date: '2025-05-10 09:30 AM' },
+  { message: 'Brake system warning light activated', date: '2025-05-10 10:45 AM' },
+  { message: 'Passenger reported feeling unwell onboard', date: '2025-05-10 11:00 AM' },
+];
+
 
   const handleReportClick = () => {
     alert('Redirecting to report issue page...');
@@ -30,14 +31,17 @@ const EmergencyReporting = () => {
       </div>
 
       {/* Issues List */}
-      <h5 className="text-primary mb-3">Reported Ongoing Issues:</h5>
-      <div>
-        {issues.map((issue, index) => (
-          <Card key={index} className="issue-card mb-3">
-            <Card.Body className="text-center">{issue}</Card.Body>
-          </Card>
-        ))}
-      </div>
+<h5 className="text-primary mb-3">Reported Ongoing Issues:</h5>
+<div>
+  {issues.map((issue, index) => (
+    <Card key={index} className="issue-card mb-3">
+      <Card.Body className="issue-body">
+        <div className="issue-message">{issue.message}</div>
+        <div className="issue-date text-muted">{issue.date}</div>
+      </Card.Body>
+    </Card>
+  ))}
+</div>
     </Container>
   );
 };

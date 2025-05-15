@@ -19,7 +19,7 @@ const ScanQRCodePage = () => {
         <Nav.Link as={Link} to="/trip-overview">Trip Overview</Nav.Link>
           <Nav.Link as={Link} to="/trip-stage">Trip Status</Nav.Link>
           <Nav.Link as={Link} to="/passenger-manifest">Passenger Manifest</Nav.Link>
-          <Nav.Link as={Link} to="/trip-alerts">Alerts</Nav.Link>
+          {/*<Nav.Link as={Link} to="/alerts">Alerts</Nav.Link>*/}
           <Nav.Link as={Link} to="/emergency-reporting">Emergency Reporting</Nav.Link>
         </Nav>
       </div>
